@@ -1,0 +1,19 @@
+version: "2"
+services:
+  php:
+    build: ./
+    volumes:
+    - ./:/usr/src/app
+    depends_on:
+      rabbitmq:
+        condition: service_started
+  rabbitmq:
+    image: rabbitmq:latest
+    container_name: rabbitmq
+    command: rabbitmq-server
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+    ports:
+      - 5672:5672
+      - 15672:15672
